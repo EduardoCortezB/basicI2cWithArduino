@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Sensor de temperatura iot</title>
+    <link rel='stylesheet' href='https://unpkg.com/bulma@0.9.1/css/bulma.min.css'>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+</head>
+
+<body>
+    <section id='app' class='hero is-link is-fullheight'>
+        <div class='hero-body'>
+            <div class='container'>
+                <div class='columns has-text-centered'>
+                    <div class='column'>
+                        <h1 style='font-size: 2.5rem'>Thermometer</h1>
+                        <i class='fa fa-thermometer-half' style='font-size: 4rem;'></i>
+                    </div>
+                </div>
+                <div class='columns'>
+                    <div class='column has-text-centered'>
+                        <h2 class='is-size-4 has-text-warning'>Temperature</h2>
+                        <h2 class='is-size-1' id="temp"></h2>
+                    </div>
+                    <div class='column has-text-centered'>
+                        <h2 class='is-size-4 has-text-warning'>Humidity</h2>
+                        <h2 class='is-size-1' id="hum"></h2>
+                    </div>
+                </div>
+                <div class="columns">
+                    <h3 id="date"></h3>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    function getT(){
+        fetch('client.php',{
+        method: 'post',
+    }).then(resp => resp.json())
+    .then(data=>{
+        document.getElementById('temp').innerText=data.temp+'°C'
+        document.getElementById('hum').innerText=data.hum+'%'
+        document.getElementById('date').innerText=`Last update: ${data.date} at: ${data.time_}`;
+    })
+    }
+    getT()
+    setInterval('getT()',5000);
+
+</script>
+</html>
